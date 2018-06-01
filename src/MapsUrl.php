@@ -29,7 +29,7 @@ class MapsUrl
      */
     public function makeSearch($callback)
     {
-        $searchAction = $callable(new SearchAction);
+        $searchAction = $callback(new SearchAction);
 
         return (new UrlGenerator($searchAction))->generate();
     }
@@ -42,7 +42,7 @@ class MapsUrl
      */
     public function makeDirection($callback)
     {
-        $directionAction = $callable(new DirectionAction);
+        $directionAction = $callback(new DirectionAction);
 
         return (new UrlGenerator($directionAction))->generate();
     }
@@ -55,7 +55,7 @@ class MapsUrl
      */
     public function makeDisplayMap($callback)
     {
-        $displayMapAction = $callable(new DisplayMapAction);
+        $displayMapAction = $callback(new DisplayMapAction);
 
         return (new UrlGenerator($displayMapAction))->generate();
     }
@@ -68,7 +68,7 @@ class MapsUrl
      */
     public function makeDisplayStreetViewPanorama($callback)
     {
-        $displayStreetViewPanoramaAction = $callable(new DisplayStreetViewPanoramaAction);
+        $displayStreetViewPanoramaAction = $callback(new DisplayStreetViewPanoramaAction);
 
         return (new UrlGenerator($displayStreetViewPanoramaAction))->generate();
     }
