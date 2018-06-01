@@ -13,102 +13,63 @@ declare(strict_types=1);
 
 namespace CyrildeWit\LaravelMapsUrls;
 
-use CyrildeWit\MapsUrls\MapsUrl as OriginalMapsUrl;
+use CyrildeWit\MapsUrls\UrlGenerator;
 use CyrildeWit\MapsUrls\Actions\SearchAction;
 use CyrildeWit\MapsUrls\Actions\DirectionAction;
+use CyrildeWit\MapsUrls\Actions\DisplayMapAction;
+use CyrildeWit\MapsUrls\Actions\DisplayStreetViewPanoramaAction;
 
 class MapsUrl
 {
     /**
-     * Build a search URL with the given query and query place id.
+     * Create a new search action URL.
      *
-     * @param  string  $query
-     * @param  string|null  $queryPlaceId
+     * @param  function  $callback
      * @return string
      */
-    public function search(string $query, $queryPlaceId = null)
+    public function makeSearch($callback)
     {
-        $search = (new SearchAction())->setQuery($query);
+        $searchAction = $callable(new SearchAction);
 
-        if ($queryPlaceId)
-        {
-            $search->setQueryPlaceId($queryPlaceId);
-        }
-
-        return (new OriginalMapsUrl($search))->getUrl();
+        return (new UrlGenerator($searchAction))->generate();
     }
 
     /**
-     * Build a search URL with the given coordinates and query place id.
+     * Create a new direction action URL.
      *
-     * @param  float  $lat
-     * @param  float  $lng
-     * @param string|null  $queryPlaceId
+     * @param  function  $callback
      * @return string
      */
-    public function searchCoordinates(float $lat, float $lng, $queryPlaceId = null)
+    public function makeDirection($callback)
     {
-        $search = (new SearchAction())->setCoordinates($lat, $lng);
+        $directionAction = $callable(new DirectionAction);
 
-        if ($queryPlaceId)
-        {
-            $search->setQueryPlaceId($queryPlaceId);
-        }
-
-        return (new OriginalMapsUrl($search))->getUrl();
+        return (new UrlGenerator($directionAction))->generate();
     }
 
     /**
-     * Build a direction URL with the given origin, destination and travelmode.
+     * Create a new display map action URL.
      *
-     * @param  string  $origin
-     * @param  string  $destination
-     * @param  string  $travelmode
+     * @param  function  $callback
      * @return string
      */
-    public function direction(string $origin, string $destination, string $travelmode)
+    public function makeDisplayMap($callback)
     {
-        $direction = (new DirectionAction())
-            ->setOrigin($origin)
-            ->setDestination($destination)
-            ->setTravelmode($travelmode);
+        $displayMapAction = $callable(new DisplayMapAction);
 
-        return (new OriginalMapsUrl($direction))->getUrl();
+        return (new UrlGenerator($displayMapAction))->generate();
     }
 
     /**
-     * Create a new search action instance.
+     * Create a new display street view panorama action URL.
      *
-     * @param  function|null  $search
-     * @return \CyrildeWit\MapsUrls\Actions\SearchAction
+     * @param  function  $callback
+     * @return string
      */
-    public function makeSearch($search = null)
+    public function makeDisplayStreetViewPanorama($callback)
     {
-        if ($search) {
-            $searchAction = $search(new SearchAction());
+        $displayStreetViewPanoramaAction = $callable(new DisplayStreetViewPanoramaAction);
 
-            return (new OriginalMapsUrl($searchAction))->getUrl();
-        }
-
-        return new SearchAction();
-    }
-
-    /**
-     * Create a new direction action instance.
-     *
-     * @param  function|null  $direction
-     * @return \CyrildeWit\MapsUrls\Actions\DirectionAction|string
-     */
-    public function makeDirection($direction = null)
-    {
-        if ($direction) {
-            $directionAction = $direction(new DirectionAction());
-
-            return (new OriginalMapsUrl($directionAction))->getUrl();
-        }
-
-        return new DirectionAction();
+        return (new UrlGenerator($displayStreetViewPanoramaAction))->generate();
     }
 }
-
-// ()->byDriving, byWalking
