@@ -20,62 +20,47 @@ use CyrildeWit\LaravelMapsUrls\Tests\UnitTestCase;
 
 class MapsUrlTest extends UnitTestCase
 {
-    public function testSearch()
-    {
-        $search = MapsUrl::search('Amsterdam', 'abcdefghijklmnopqrstuvwxyz');
-
-        $this->assertEquals('https://www.google.com/maps/search/?api=1&query=Amsterdam&query_place_id=abcdefghijklmnopqrstuvwxyz', $search);
-    }
-
-    public function testSearchCoordinates()
-    {
-        $search = MapsUrl::searchCoordinates(45, 4, 'abcdefghijklmnopqrstuvwxyz');
-
-        $this->assertEquals('https://www.google.com/maps/search/?api=1&query=45%2C4&query_place_id=abcdefghijklmnopqrstuvwxyz', $search);
-    }
-
-    public function testDirection()
-    {
-        $search = MapsUrl::direction('Monnickendam', 'Amsterdam', 'bicycling');
-
-        $this->assertEquals('https://www.google.com/maps/dir/?api=1&origin=Monnickendam&destination=Amsterdam&travelmode=bicycling', $search);
-    }
-
-    public function testMakeSearchEmpty()
-    {
-        $searchAction = MapsUrl::makeSearch();
-
-        $this->assertInstanceOf(SearchAction::class, $searchAction);
-    }
-
-    public function testMakeSearchCallback()
+    public function testMakeSearch()
     {
         $search = MapsUrl::makeSearch(function ($action) {
             $action->setQuery('Amsterdam');
-            $action->setQueryPlaceId('abcdefghijklmnopqrstuvwxyz');
 
             return $action;
         });
 
-        $this->assertEquals('https://www.google.com/maps/search/?api=1&query=Amsterdam&query_place_id=abcdefghijklmnopqrstuvwxyz', $search);
+        $this->assertEquals('https://www.google.com/maps/search/?api=1&query=Amsterdam', $search);
     }
 
     public function testMakeDirection()
     {
-        $directionAction = MapsUrl::makeDirection();
-
-        $this->assertInstanceOf(DirectionAction::class, $directionAction);
-    }
-
-    public function testMakeDirectionCallback()
-    {
         $search = MapsUrl::makeDirection(function ($action) {
             $action->setOrigin('Amsterdam');
-            $action->setOriginPlaceId('abcdefghijklmnopqrstuvwxyz');
 
             return $action;
         });
 
-        $this->assertEquals('https://www.google.com/maps/dir/?api=1&origin=Amsterdam&origin_place_id=abcdefghijklmnopqrstuvwxyz', $search);
+        $this->assertEquals('https://www.google.com/maps/dir?api=1&origin=Amsterdam', $search);
+    }
+
+    public function testMakeDisplayMap()
+    {
+        $search = MapsUrl::makeDisplayMap(function ($action) {
+            $action->setCenter(20, 40);
+
+            return $action;
+        });
+
+        $this->assertEquals('https://www.google.com/maps/@?api=1&map_action=map&center=20%2C40', $search);
+    }
+
+    public function testMakeDisplayStreetViewPanorama()
+    {
+        $search = MapsUrl::makeDisplayStreetViewPanorama(function ($action) {
+            $action->setViewpoint(20, 40);
+
+            return $action;
+        });
+
+        $this->assertEquals('https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=20%2C40', $search);
     }
 }
