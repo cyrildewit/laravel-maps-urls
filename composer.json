@@ -1,0 +1,64 @@
+{
+    "name": "cyrildewit/laravel-maps-urls",
+    "description": "",
+    "type": "library",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/cyrildewit/php-maps-urls",
+    "keywords": [
+        "cyrildewit",
+        "php",
+        "laravel",
+        "google",
+        "maps",
+        "url",
+        "urls"
+    ],
+    "support": {
+        "email": "github@cyrildewit.nl",
+        "issues": "https://github.com/cyrildewit/php-maps-urls/issues",
+        "source": "https://github.com/cyrildewit/php-maps-urls"
+    },
+    "authors": [
+        {
+            "name": "Cyril de Wit",
+            "email": "info@cyrildewit.nl",
+            "homepage": "http://cyrildewit.nl",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.0",
+        "cyrildewit/php-maps-urls": "@dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^6.5",
+        "orchestra/testbench": "^3.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "CyrildeWit\\LaravelMapsUrls\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CyrildeWit\\LaravelMapsUrls\\Tests\\": "tests/"
+        }
+    },
+    "repositories": {
+        "dev-package": {
+            "type": "path",
+            "url": "../php-maps-urls",
+            "options": {
+                "symlink": true
+            }
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
